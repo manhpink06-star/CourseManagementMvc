@@ -1,0 +1,24 @@
+@model CourseImageFormViewModel
+@{ ViewData["Title"] = "Thêm ảnh khóa học"; }
+<h1 class="h2 title mb-1">Thêm ảnh khóa học</h1>
+<p class="text-secondary mb-4">Khóa học: <strong>@ViewBag.CourseName</strong> (ID @Model.CourseId)</p>
+<div class="panel"><div class="panel-body">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <input asp-for="CourseId" type="hidden" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="ImageUrl" class="form-label fw-semibold"></label>
+            <input asp-for="ImageUrl" class="form-control" placeholder="https://example.com/course.jpg" />
+            <span asp-validation-for="ImageUrl"></span>
+            <div class="form-text">Chỉ dùng liên kết ảnh http/https. Có thể thêm nhiều ảnh.</div>
+        </div>
+        <div class="form-check mb-4">
+            <input asp-for="IsThumbnail" class="form-check-input" />
+            <label asp-for="IsThumbnail" class="form-check-label"></label>
+            <div class="form-text">Nếu chọn, ảnh đại diện trước đó sẽ tự động thành ảnh thường.</div>
+        </div>
+        <button class="btn btn-success" type="submit">Lưu ảnh</button>
+        <a asp-controller="Courses" asp-action="Details" asp-route-id="@Model.CourseId" class="btn btn-outline-secondary">Quay lại</a>
+    </form>
+</div></div>

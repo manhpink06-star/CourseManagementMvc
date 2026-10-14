@@ -1,0 +1,30 @@
+:root { --ink: #142441; --slate: #52647a; --green: #047857; --surface: #f4f7fb; }
+body { background: var(--surface); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.topbar { background: #102742; box-shadow: 0 3px 18px rgba(16,39,66,.12); }
+.brand { color: white; font-size: 1.3rem; font-weight: 800; text-decoration: none; letter-spacing: -.5px; }
+.brand span { color: #9dc4ce; font-size: .77rem; font-weight: 500; letter-spacing: 0; }
+.navlink { color: #d9e7ed; font-size: .94rem; text-decoration: none; }
+.navlink:hover, .brand:hover { color: white; }
+.title { font-weight: 800; letter-spacing: -.7px; }
+.panel { background: white; border: 1px solid #e2e9f0; border-radius: 16px; box-shadow: 0 5px 16px rgba(16,39,66,.035); }
+.panel-header { border-bottom: 1px solid #e9eef5; padding: 17px 22px; }
+.panel-body { padding: 22px; }
+.table { margin: 0; }
+.table thead th { color: var(--slate); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; background: #f9fbfd; }
+.table td { vertical-align: middle; }
+.course-name { font-weight: 700; color: #12314c; text-decoration: none; }
+.course-name:hover { color: var(--green); }
+.pill { padding: 5px 10px; border-radius: 999px; font-size: .75rem; font-weight: 700; display: inline-block; }
+.pill-live { color: #05603a; background: #dff8e9; }
+.pill-off { color: #8b4545; background: #fde8e8; }
+.pill-short { color: #1755a0; background: #e5f1ff; }
+.pill-long { color: #6349a8; background: #f0eaff; }
+.course-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); gap: 18px; }
+.gallery-card { background: white; border: 1px solid #e6eaf1; border-radius: 12px; overflow: hidden; }
+.gallery-card img { width: 100%; height: 170px; object-fit: cover; display: block; background: #edf1f6; }
+.gallery-card .gallery-bottom { padding: 12px; }
+.field-validation-error, .validation-summary-errors { color: #b91c1c; font-size: .88rem; }
+.field-validation-valid { display: none; }
+.form-control, .form-select { border-radius: 9px; }
+.btn { border-radius: 9px; }
+@media (max-width: 680px) { .table-wrap { overflow-x: auto; } .panel-body { padding: 16px; } }

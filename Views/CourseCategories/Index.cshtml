@@ -1,0 +1,21 @@
+@model List<CourseCategoryListItem>
+@{ ViewData["Title"] = "Loại khóa học"; }
+<div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+    <div><h1 class="h2 title mb-1">Loại khóa học</h1><div class="text-secondary">Không xóa được loại đang có khóa học.</div></div>
+    <a asp-action="Create" class="btn btn-success">+ Thêm loại</a>
+</div>
+<div class="panel"><div class="table-wrap"><table class="table table-hover align-middle">
+    <thead><tr><th class="ps-3">ID</th><th>Tên loại</th><th>Mô tả</th><th>Số khóa học</th><th>Thao tác</th></tr></thead>
+    <tbody>
+    @foreach (var c in Model)
+    {
+        <tr>
+            <td class="ps-3">@c.Id</td>
+            <td class="fw-bold">@c.Name</td>
+            <td>@c.Description</td>
+            <td><span class="badge text-bg-light">@c.CourseCount</span></td>
+            <td><a asp-action="Delete" asp-route-id="@c.Id" class="btn btn-sm btn-outline-danger">Thử xóa</a></td>
+        </tr>
+    }
+    </tbody>
+</table></div></div>

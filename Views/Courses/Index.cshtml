@@ -1,0 +1,114 @@
+@model CourseIndexViewModel
+@{
+    ViewData["Title"] = "Danh sách khóa học";
+}
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+    <div>
+        <div class="text-uppercase text-success fw-bold small mb-1">Quản trị đào tạo</div>
+        <h1 class="title h2 mb-1">Danh sách khóa học</h1>
+        <p class="text-secondary mb-0">Tìm kiếm, lọc kết hợp và sắp xếp dữ liệu từ SQL Server.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-success">+ Tạo khóa học</a>
+</div>
+
+<div class="panel mb-4">
+    <div class="panel-header fw-bold">Bộ lọc &amp; tra cứu</div>
+    <div class="panel-body">
+        <form asp-action="Index" method="get">
+            <div class="row g-3">
+                <div class="col-lg-4 col-md-6">
+                    <label for="searchString" class="form-label">Tên khóa học</label>
+                    <input class="form-control" id="searchString" name="searchString" value="@Model.SearchString" placeholder="Nhập một phần tên..." />
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <label for="categoryId" class="form-label">Loại khóa học</label>
+                    <select class="form-select" id="categoryId" name="categoryId" asp-items="Model.Categories">
+                        <option value="">Tất cả loại khóa học</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="minFee" class="form-label">Học phí từ</label>
+                    <input class="form-control" id="minFee" name="minFee" type="number" min="0" step="0.01" value="@Model.MinFee" placeholder="Tối thiểu" />
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="maxFee" class="form-label">Học phí đến</label>
+                    <input class="form-control" id="maxFee" name="maxFee" type="number" min="0" step="0.01" value="@Model.MaxFee" placeholder="Tối đa" />
+                </div>
+                <div class="col-lg-5 col-md-6">
+                    <label for="sortOrder" class="form-label">Sắp xếp</label>
+                    <select class="form-select" id="sortOrder" name="sortOrder">
+                        <option value="" selected="@(string.IsNullOrEmpty(Model.SortOrder))">Mặc định</option>
+                        <option value="fee_asc" selected="@(Model.SortOrder == "fee_asc")">Học phí tăng dần</option>
+                        <option value="fee_desc" selected="@(Model.SortOrder == "fee_desc")">Học phí giảm dần</option>
+                        <option value="duration_asc" selected="@(Model.SortOrder == "duration_asc")">Thời lượng tăng dần</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 d-flex align-items-end">
+                    <div class="form-check pb-2">
+                        <input class="form-check-input" type="checkbox" name="activeOnly" id="activeOnly" value="true" checked="@Model.ActiveOnly" />
+                        <label class="form-check-label" for="activeOnly">Chỉ đang tuyển sinh</label>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-end align-items-end gap-2">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Xóa lọc</a>
+                    <button type="submit" class="btn btn-success px-4">Áp dụng bộ lọc</button>
+                </div>
+            </div>
+        </form>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-warning mt-3 mb-0">@Model.ErrorMessage</div>
+        }
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <strong>Kết quả khóa học</strong>
+        <span class="text-secondary small">Tìm thấy: <strong>@Model.Courses.Count</strong> khóa học</span>
+    </div>
+    <div class="table-wrap">
+        <table class="table table-hover align-middle">
+            <thead><tr>
+                <th class="ps-3">ID</th><th>Khóa học</th><th>Loại khóa học</th>
+                <th>Học phí</th><th>Thời lượng</th><th>Phân loại</th>
+                <th>Trạng thái</th><th>Thao tác</th>
+            </tr></thead>
+            <tbody>
+            @foreach (var course in Model.Courses)
+            {
+                <tr>
+                    <td class="ps-3">@course.Id</td>
+                    <td><a class="course-name" asp-action="Details" asp-route-id="@course.Id">@course.Name</a></td>
+                    <td>@course.CourseCategory?.Name</td>
+                    <td class="fw-semibold">@course.TuitionFee.ToString("N0") ₫</td>
+                    <td>@course.Duration giờ</td>
+                    <td><span class="pill @(course.Duration <= 30 ? "pill-short" : "pill-long")">@(course.Duration <= 30 ? "Ngắn hạn" : "Dài hạn")</span></td>
+                    <td>
+                        @if (course.IsActive)
+                        {
+                            <span class="pill pill-live">Đang tuyển sinh</span>
+                        }
+                        else
+                        {
+                            <span class="pill pill-off">Ngừng tuyển sinh</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@course.Id" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                        <a asp-action="Edit" asp-route-id="@course.Id" class="btn btn-sm btn-outline-secondary">Sửa</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        @if (!Model.Courses.Any())
+        {
+            <div class="text-center text-secondary py-5">
+                <div class="fs-2">⌕</div>
+                <div class="fw-semibold">Không có khóa học phù hợp</div>
+                <div>Hãy thử chỉnh lại từ khóa hoặc bộ lọc.</div>
+            </div>
+        }
+    </div>
+</div>

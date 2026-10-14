@@ -1,0 +1,64 @@
+@model Course
+@{ ViewData["Title"] = "Chi tiết khóa học"; }
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <div class="small text-success fw-bold text-uppercase">Chi tiết khóa học #@Model.Id</div>
+        <h1 class="h2 title mb-0">@Model.Name</h1>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Sửa khóa học</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Danh sách</a>
+    </div>
+</div>
+<div class="panel mb-4"><div class="panel-body">
+    <div class="row g-4">
+        <div class="col-md-4"><div class="text-secondary small">Loại khóa học</div><div class="fs-5 fw-bold">@Model.CourseCategory?.Name</div></div>
+        <div class="col-md-4"><div class="text-secondary small">Học phí</div><div class="fs-5 fw-bold">@Model.TuitionFee.ToString("N0") ₫</div></div>
+        <div class="col-md-4"><div class="text-secondary small">Thời lượng / phân loại</div><div class="fs-5 fw-bold">@Model.Duration giờ · @(Model.Duration <= 30 ? "Ngắn hạn" : "Dài hạn")</div></div>
+        <div class="col-md-4"><div class="text-secondary small">Trạng thái</div><div class="mt-2">@(Model.IsActive ? "Đang tuyển sinh" : "Ngừng tuyển sinh")</div></div>
+        <div class="col-md-8"><div class="text-secondary small">Mô tả</div><div class="mt-2">@(string.IsNullOrWhiteSpace(Model.Description) ? "Chưa có mô tả." : Model.Description)</div></div>
+    </div>
+</div></div>
+<div class="d-flex justify-content-between align-items-center mb-3 gap-3">
+    <div><h2 class="h4 title mb-1">Thư viện hình ảnh</h2><div class="text-secondary small">@Model.CourseImages.Count hình ảnh của khóa học</div></div>
+    <a asp-controller="CourseImages" asp-action="Create" asp-route-courseId="@Model.Id" class="btn btn-success">+ Thêm ảnh bằng URL</a>
+</div>
+@if (!Model.CourseImages.Any())
+{
+    <div class="panel"><div class="panel-body text-secondary text-center py-5">Khóa học chưa có hình ảnh. Chọn “Thêm ảnh bằng URL” để bổ sung.</div></div>
+}
+else
+{
+    <div class="course-gallery">
+        @foreach (var image in Model.CourseImages.OrderByDescending(i => i.IsThumbnail).ThenBy(i => i.Id))
+        {
+            <div class="gallery-card">
+                <img src="@image.ImageUrl" alt="Ảnh khóa học @Model.Name" loading="lazy" />
+                <div class="gallery-bottom">
+                    <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                        <span class="small text-secondary">Ảnh #@image.Id</span>
+                        @if (image.IsThumbnail)
+                        {
+                            <span class="pill pill-live">★ Ảnh đại diện</span>
+                        }
+                        else
+                        {
+                            <span class="small text-secondary">Ảnh thường</span>
+                        }
+                    </div>
+                    @if (!image.IsThumbnail)
+                    {
+                        <form asp-controller="CourseImages" asp-action="SetThumbnail" asp-route-id="@image.Id" method="post">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-sm btn-outline-primary w-100" type="submit">Chọn làm ảnh đại diện</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="small text-success">Ảnh đang được dùng làm đại diện.</div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

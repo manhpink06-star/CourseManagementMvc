@@ -1,0 +1,7 @@
+@model CourseFormViewModel
+@{ ViewData["Title"] = "Sửa khóa học"; }
+<h1 class="h2 title mb-1">Sửa khóa học #@Model.Id</h1>
+<p class="text-secondary mb-4">Cập nhật khóa học và kiểm tra validation.</p>
+<div class="panel"><div class="panel-body">
+    <partial name="_CourseForm" model="Model" />
+</div></div>

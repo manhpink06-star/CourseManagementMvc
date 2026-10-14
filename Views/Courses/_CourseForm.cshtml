@@ -1,0 +1,45 @@
+@model CourseFormViewModel
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <div class="row g-3">
+        <div class="col-md-8">
+            <label asp-for="Name" class="form-label fw-semibold"></label>
+            <input asp-for="Name" class="form-control" placeholder="Ví dụ: Lập trình ASP.NET" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="CourseCategoryId" class="form-label fw-semibold"></label>
+            <select asp-for="CourseCategoryId" asp-items="Model.Categories" class="form-select">
+                <option value="0">-- Chọn loại khóa học --</option>
+            </select>
+            <span asp-validation-for="CourseCategoryId"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="TuitionFee" class="form-label fw-semibold"></label>
+            <input asp-for="TuitionFee" class="form-control" type="number" step="0.01" min="0.01" />
+            <span asp-validation-for="TuitionFee"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Duration" class="form-label fw-semibold"></label>
+            <input asp-for="Duration" class="form-control" type="number" min="1" />
+            <span asp-validation-for="Duration"></span>
+        </div>
+        <div class="col-12">
+            <label asp-for="Description" class="form-label fw-semibold"></label>
+            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Mô tả ngắn về khóa học..."></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input asp-for="IsActive" class="form-check-input" />
+                <label asp-for="IsActive" class="form-check-label"></label>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4 d-flex gap-2">
+        <button class="btn btn-success px-4" type="submit">Lưu khóa học</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Quay về danh sách</a>
+    </div>
+</form>

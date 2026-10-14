@@ -1,0 +1,21 @@
+@model CourseCategory
+@{ ViewData["Title"] = "Thêm loại khóa học"; }
+<h1 class="h2 title mb-4">Thêm loại khóa học</h1>
+<div class="panel"><div class="panel-body">
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label fw-semibold"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="mb-4">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+    <button class="btn btn-success" type="submit">Lưu loại</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Quay lại</a>
+</form>
+</div></div>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Quản lý khóa học</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="container d-flex justify-content-between align-items-center gap-3 flex-wrap py-3">
+            <a asp-controller="Courses" asp-action="Index" class="brand">◈ CourseManager <span>· MVC + ORM</span></a>
+            <nav class="d-flex gap-3 align-items-center">
+                <a asp-controller="Courses" asp-action="Index" class="navlink">Khóa học</a>
+                <a asp-controller="CourseCategories" asp-action="Index" class="navlink">Loại khóa học</a>
+                <a asp-controller="Courses" asp-action="Create" class="btn btn-success btn-sm">+ Thêm khóa học</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container py-4">
+        @if (TempData["Success"] is string success)
+        {
+            <div class="alert alert-success" role="alert">@success</div>
+        }
+        @if (TempData["Error"] is string error)
+        {
+            <div class="alert alert-danger" role="alert">@error</div>
+        }
+        @RenderBody()
+    </main>
+    <footer class="container pb-4 small text-secondary">Đề ôn luyện giữa kỳ · ASP.NET Core MVC · Entity Framework Core</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

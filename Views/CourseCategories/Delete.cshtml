@@ -1,0 +1,19 @@
+@model CourseCategory
+@{ ViewData["Title"] = "Xóa loại khóa học"; }
+<h1 class="h2 title mb-4">Xóa loại khóa học</h1>
+<div class="panel"><div class="panel-body">
+    <p>Bạn đang thử xóa loại <strong>@Model.Name</strong> (ID @Model.Id).</p>
+    @if (ViewBag.HasCourses == true)
+    {
+        <div class="alert alert-warning">Loại này đang có khóa học, hệ thống sẽ từ chối xóa.</div>
+    }
+    else
+    {
+        <div class="alert alert-info">Loại hiện chưa có khóa học. Có thể xóa.</div>
+    }
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+        <button class="btn btn-danger" type="submit">Xác nhận thử xóa</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Hủy</a>
+    </form>
+</div></div>

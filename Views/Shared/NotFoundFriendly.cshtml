@@ -1,0 +1,8 @@
+@model string
+@{ ViewData["Title"] = "Không tìm thấy"; }
+<div class="panel text-center"><div class="panel-body py-5">
+    <div style="font-size:3.5rem; font-weight:800; color:#d97706">404</div>
+    <h1 class="h3">Không tìm thấy dữ liệu</h1>
+    <p class="text-secondary">@Model</p>
+    <a asp-controller="Courses" asp-action="Index" class="btn btn-success">Về danh sách khóa học</a>
+</div></div>
